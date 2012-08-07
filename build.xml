@@ -1,0 +1,66 @@
+<project name="GoodreadsAPI" default="jar" basedir=".">
+  <description>Goodreads Web Service API Interface</description>
+
+	<property name="src.dir" location="src" />
+	<property name="lib.dir" location="lib" />
+	<property name="build.dir" location="build" />
+
+  <!-- The local.properties file is created and updated by the 'android' tool.
+       It contains the path to the SDK. It should *NOT* be checked into
+       Version Control Systems. -->
+  <property file="local.properties" />
+
+  <!-- if sdk.dir was not set from one of the property file, then
+       get it from the ANDROID_HOME env var.
+       This must be done before we load project.properties since
+       the proguard config can use sdk.dir -->
+  <property environment="env" />
+  <condition property="sdk.dir" value="${env.ANDROID_HOME}">
+      <isset property="env.ANDROID_HOME" />
+  </condition>
+
+  <!-- quick check on sdk.dir -->
+  <fail
+          message="sdk.dir is missing. Make sure to generate local.properties using 'android update project' or to inject it through the ANDROID_HOME environment variable."
+          unless="sdk.dir"
+  />
+
+	<path id="build.classpath">
+		<fileset dir="${lib.dir}">
+			<include name="**/*.jar" />
+		</fileset>
+		<fileset dir="${sdk.dir}">
+			<include name="platforms/android-8/android.jar"/>
+		</fileset>
+	</path>
+
+
+  <!-- set global properties for this build -->
+  <property name="src" location="." />
+  <property name="bin" location="bin" />
+
+	<target name="init">
+		<tstamp/>
+		<mkdir dir="${build.dir}"/>
+	</target>
+	
+	<target name="compile" depends="init">
+		<javac srcdir="${src.dir}" destdir="${build.dir}" classpathref="build.classpath" includeantruntime="false" />
+	</target>
+
+  <target name="jar" depends="compile" description="Generate a jar">
+	
+		<mkdir dir="${build.dir}/lib"/>
+    <jar destfile="${build.dir}/lib/goodreads-api.jar" basedir="${build.dir}">
+		<!-- replace 'com' by what ever you are using -->
+		<!-- as first part of the package name -->
+		<!-- e.g. de, org, ... -->
+		<!-- the ** is important to include the directory recursively -->
+			<include name="com/**" />
+    </jar>
+  </target>
+
+	<target name="clean" description="clean up">
+		<delete dir="${build.dir}"/>
+	</target>
+</project>
