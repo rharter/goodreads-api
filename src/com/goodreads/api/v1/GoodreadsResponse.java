@@ -25,7 +25,7 @@ package com.goodreads.api.v1;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Response
+public class GoodreadsResponse
 {
 	private Request mRequest;
 	private User mUser;
@@ -62,7 +62,7 @@ public class Response
 	
 	public void copy()
 	{
-		Response responseCopy = new Response();
+		GoodreadsResponse responseCopy = new GoodreadsResponse();
 		
 		responseCopy.setRequest(this.getRequest().copy());
 		responseCopy.setUser(this.getUser().copy());
