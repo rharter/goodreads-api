@@ -24,12 +24,13 @@ package com.goodreads.api.v1;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.io.Serializable;
 
 import android.sax.Element;
 import android.sax.EndElementListener;
 import android.sax.EndTextElementListener;
 
-public class UserShelf
+public class UserShelf implements Serializable
 {
 	private int mBookCount;
 	private String mDescription;

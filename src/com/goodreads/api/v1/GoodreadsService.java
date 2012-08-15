@@ -125,51 +125,34 @@ public class GoodreadsService
 		GoodreadsResponse responseData = GoodreadsService.parse(response.getStream());
 		return responseData.getUser();
 	}
-// 
-// 	public static Reviews getBooksOnShelf(String shelfName, String userId) throws Exception
-// 	{
-// 		return getBooksOnShelf(shelfName, userId, 1);
-// 	}
-// 	
-// 	public static Reviews getBooksOnShelf(String shelfName, String userId, int page) throws Exception
-// 	{
-// 		Uri.Builder builder = new Uri.Builder();
-// 		builder.scheme("http");
-// 		builder.authority("www.goodreads.com");
-// 		builder.path("review/list/" + userId + ".xml");
-// 		builder.appendQueryParameter("key", sConsumerKey);
-// 		builder.appendQueryParameter("shelf", shelfName);
-// 		builder.appendQueryParameter("v", "2");
-// 		builder.appendQueryParameter("sort", "date_updated");
-// 		builder.appendQueryParameter("order", "d");
-// 		builder.appendQueryParameter("page", Integer.toString(page));
-// 		HttpGet getBooksOnShelfRequest = new HttpGet(builder.build().toString());
-// 		if (isAuthenticated())
-// 		{
-// 			sService.signRequest(sAccessToken, getBooksOnShelfRequest);
-// 		}
-// 		
-// 		HttpClient httpClient = new DefaultHttpClient();
-// 		HttpResponse response;
-// 
-// 		response = httpClient.execute(getBooksOnShelfRequest);
-// 		Response responseData = GoodreadsService.parse(response.getEntity().getContent());
-// 		return responseData.getReviews();		
-// //		InputStream is = response.getEntity().getContent();
-// //		BufferedReader br = new BufferedReader(new InputStreamReader(is));
-// //		StringBuilder sb = new StringBuilder();
-// //		while (true)
-// //		{
-// //			String nextByte = br.readLine();
-// //			if (nextByte == null)
-// //			{
-// //				break;
-// //			}
-// //			sb.append(nextByte);
-// //			Log.e("response", nextByte);
-// //		}
-// //		throw new Exception(sb.toString());
-// 	}
+
+	public static Reviews getBooksOnShelf(String shelfName, String userId) throws Exception
+	{
+		return getBooksOnShelf(shelfName, userId, 1);
+	}
+	
+	public static Reviews getBooksOnShelf(String shelfName, String userId, int page) throws Exception
+	{
+		Uri.Builder builder = new Uri.Builder();
+		builder.scheme("http");
+		builder.authority("www.goodreads.com");
+		builder.path("review/list/" + userId + ".xml");
+		builder.appendQueryParameter("key", sApiKey);
+		builder.appendQueryParameter("shelf", shelfName);
+		builder.appendQueryParameter("v", "2");
+		builder.appendQueryParameter("sort", "date_updated");
+		builder.appendQueryParameter("order", "d");
+		builder.appendQueryParameter("page", Integer.toString(page));
+		OAuthRequest getBooksOnShelfRequest = new OAuthRequest(Verb.GET, builder.build().toString());
+		if (isAuthenticated())
+		{
+			sService.signRequest(sAccessToken, getBooksOnShelfRequest);
+		}
+		Response response = getBooksOnShelfRequest.send();
+
+		GoodreadsResponse responseData = GoodreadsService.parse(response.getStream());
+		return responseData.getReviews();
+	}
 // 	
 // 	public static Review getReview(String reviewId) throws Exception
 // 	{
@@ -224,33 +207,24 @@ public class GoodreadsService
 		return responseData.getShelves().getUserShelves();
 	}
 	
-// 	public static List<Update> getFriendsUpdates() 
-// 		throws 
-// 			ClientProtocolException, 
-// 			IOException, 
-// 			IllegalStateException, 
-// 			SAXException, 
-// 			OAuthMessageSignerException, 
-// 			OAuthExpectationFailedException, 
-// 			OAuthCommunicationException
-// 	{
-// 		Uri.Builder builder = new Uri.Builder();
-// 		builder.scheme("http");
-// 		builder.authority("www.goodreads.com");
-// 		builder.path("updates/friends.xml");
-// 
-// 		HttpGet getUpdatesRequest = new HttpGet(builder.build().toString());
-// 		if (isAuthenticated())
-// 		{
-// 			sService.signRequest(sAccessToken, getUpdatesRequest);
-// 		}
-// 		
-// 		HttpClient httpClient = new DefaultHttpClient();
-// 		HttpResponse response = httpClient.execute(getUpdatesRequest);
-// 		
-// 		Response updatesResponse = GoodreadsService.parse(response.getEntity().getContent());
-// 		return updatesResponse.getUpdates();
-// 	}
+	public static List<Update> getFriendsUpdates() throws Exception
+	{
+		Uri.Builder builder = new Uri.Builder();
+		builder.scheme("http");
+		builder.authority("www.goodreads.com");
+		builder.path("updates/friends.xml");
+
+		OAuthRequest getUpdatesRequest = new OAuthRequest(Verb.GET, builder.build().toString());
+		if (isAuthenticated())
+		{
+			sService.signRequest(sAccessToken, getUpdatesRequest);
+		}
+		
+		Response response = getUpdatesRequest.send();
+		
+		GoodreadsResponse updatesResponse = GoodreadsService.parse(response.getStream());
+		return updatesResponse.getUpdates();
+	}
 // 	
 // 	public static Followers getFollowers(String userId) throws Exception 
 // 	{
