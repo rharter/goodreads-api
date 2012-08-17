@@ -235,4 +235,9 @@ public class Update
 		mUpdateObject = updateObject;
 	}
 	
+	@Override
+	public String toString() {
+		return "Update[updateType=" + mUpdateType + ", actionText=" + mActionText + ", link=" + mLink + ", imageUrl=" + mImageUrl + ", updatedAt=" + mUpdatedAt + "]";
+	}
+	
 }
