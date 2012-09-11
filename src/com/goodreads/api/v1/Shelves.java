@@ -22,6 +22,7 @@
 
 package com.goodreads.api.v1;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,8 +31,10 @@ import org.xml.sax.Attributes;
 import android.sax.Element;
 import android.sax.StartElementListener;
 
-public class Shelves
+public class Shelves implements Serializable
 {
+	private static final long serialVersionUID = 0L;
+	
 	private int mStart;
 	private int mEnd;
 	private int mTotal;

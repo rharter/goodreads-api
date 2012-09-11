@@ -32,6 +32,8 @@ import android.sax.EndTextElementListener;
 
 public class UserShelf implements Serializable
 {
+	private static final long serialVersionUID = 0L;
+	
 	private int mBookCount;
 	private String mDescription;
 	private String mName;

@@ -22,11 +22,15 @@
 
 package com.goodreads.api.v1;
 
+import java.io.Serializable;
+
 import android.sax.Element;
 import android.sax.EndTextElementListener;
 
-public class Request
+public class Request implements Serializable
 {
+	private static final long serialVersionUID = 0L;
+	
 	private boolean mAuthentication;
 	private String mKey;
 	private String mMethod;

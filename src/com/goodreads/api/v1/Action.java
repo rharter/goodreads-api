@@ -22,14 +22,18 @@
 
 package com.goodreads.api.v1;
 
+import java.io.Serializable;
+
 import org.xml.sax.Attributes;
 
 import android.sax.Element;
 import android.sax.EndTextElementListener;
 import android.sax.StartElementListener;
 
-public class Action
+public class Action implements Serializable
 {
+	private static final long serialVersionUID = 0L;
+	
 	private String mActionType;
 	private String mShelfName;
 	private int mRating;
