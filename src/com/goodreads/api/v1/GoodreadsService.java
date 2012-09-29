@@ -38,9 +38,11 @@ import org.xml.sax.SAXException;
 import android.net.Uri;
 import android.sax.RootElement;
 import android.util.Xml;
+import android.util.Log;
 
 public class GoodreadsService
 {
+	private static final String TAG = "GoodreadsService";
 	private static final String CALLBACK = "oauth://goodreads";
 	
 	private static String sApiKey;
