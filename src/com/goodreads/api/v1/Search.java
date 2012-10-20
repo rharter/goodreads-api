@@ -22,14 +22,17 @@
 
 package com.goodreads.api.v1;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import android.sax.Element;
 import android.sax.EndTextElementListener;
 
-public class Search
+public class Search implements Serializable
 {
+	private static final long serialVersionUID = 0L;
+	
 	private String mQuery;
 	private int mResultsStart;
 	private int mResultsEnd;

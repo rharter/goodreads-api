@@ -22,8 +22,13 @@
 
 package com.goodreads.api.v1;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import org.xml.sax.Attributes;
 
@@ -32,13 +37,15 @@ import android.sax.EndElementListener;
 import android.sax.EndTextElementListener;
 import android.sax.StartElementListener;
 
-public class Update
+public class Update implements Serializable
 {
+	private static final long serialVersionUID = 0L;
+
 	private String mUpdateType;
 	private String mActionText;
 	private String mLink;
 	private String mImageUrl;
-	private String mUpdatedAt;
+	private Date mUpdatedAt;
 	private Actor mActor = new Actor();
 	private Action mAction = new Action();
 	private UpdateObject mUpdateObject = new UpdateObject();
@@ -49,7 +56,7 @@ public class Update
 		this.setActionText("");
 		this.setLink("");
 		this.setImageUrl("");
-		this.setUpdatedAt("");
+		this.setUpdatedAt(new Date());
 		mActor.clear();
 		mAction.clear();
 		mUpdateObject.clear();
@@ -146,7 +153,14 @@ public class Update
 			@Override
 			public void end(String body)
 			{
-				update.setUpdatedAt(body);
+				SimpleDateFormat sdf = new SimpleDateFormat("E, dd MMM yyyy hh:mm:ss Z");
+				Date d = new Date();
+				try {
+					d = sdf.parse(body);
+				} catch (ParseException e) {
+					System.err.println("Failed to parse date: " + body + ": " + e.getMessage());
+				}
+				update.setUpdatedAt(d);
 			}
 		});
 		
@@ -195,12 +209,12 @@ public class Update
 		mImageUrl = imageUrl;
 	}
 
-	public String getUpdatedAt()
+	public Date getUpdatedAt()
 	{
 		return mUpdatedAt;
 	}
 
-	public void setUpdatedAt(String updatedAt)
+	public void setUpdatedAt(Date updatedAt)
 	{
 		mUpdatedAt = updatedAt;
 	}

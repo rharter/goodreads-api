@@ -22,10 +22,13 @@
 
 package com.goodreads.api.v1;
 
+import java.io.Serializable;
 import android.sax.Element;
 
-public class UpdateObject
+public class UpdateObject implements Serializable
 {
+	private static final long serialVersionUID = 0L;
+	
 	private Book mBook = new Book();
 	
 	public void clear()

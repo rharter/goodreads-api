@@ -22,11 +22,15 @@
 
 package com.goodreads.api.v1;
 
+import java.io.Serializable;
+
 import android.sax.Element;
 import android.sax.EndTextElementListener;
 
-public class BestBook
+public class BestBook implements Serializable
 {
+	private static final long serialVersionUID = 0L;
+	
 	private int mId;
 	private String mTitle;
 	private Author mAuthor = new Author();

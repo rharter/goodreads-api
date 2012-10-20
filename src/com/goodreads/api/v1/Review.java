@@ -22,6 +22,7 @@
 
 package com.goodreads.api.v1;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,8 +33,10 @@ import android.sax.EndElementListener;
 import android.sax.EndTextElementListener;
 import android.sax.StartElementListener;
 
-public class Review
+public class Review implements Serializable
 {
+	private static final long serialVersionUID = 0L;
+	
 	private String mId;
 	private Book mBook = new Book();
 	private int mRating;

@@ -38,9 +38,11 @@ import org.xml.sax.SAXException;
 import android.net.Uri;
 import android.sax.RootElement;
 import android.util.Xml;
+import android.util.Log;
 
 public class GoodreadsService
 {
+	private static final String TAG = "GoodreadsService";
 	private static final String CALLBACK = "oauth://goodreads";
 	
 	private static String sApiKey;
@@ -153,36 +155,32 @@ public class GoodreadsService
 		GoodreadsResponse responseData = GoodreadsService.parse(response.getStream());
 		return responseData.getReviews();
 	}
-// 	
-// 	public static Review getReview(String reviewId) throws Exception
-// 	{
-// 		return getReview(reviewId, 1);
-// 	}
-// 	
-// 	public static Review getReview(String reviewId, int page) throws Exception
-// 	{
-// 		Uri.Builder builder = new Uri.Builder();
-// 		builder.scheme("http");
-// 		builder.authority("www.goodreads.com");
-// 		builder.path("review/show/" + reviewId + ".xml");
-// 		builder.appendQueryParameter("key", sConsumerKey);
-// 		builder.appendQueryParameter("page", Integer.toString(page));
-// 		HttpGet getReviewRequest = new HttpGet(builder.build().toString());
-// 		if (isAuthenticated())
-// 		{
-// 			sService.signRequest(sAccessToken, getReviewRequest);
-// 		}
-// 		
-// 		HttpClient httpClient = new DefaultHttpClient();
-// 		HttpResponse response;
-// 
-// 		response = httpClient.execute(getReviewRequest);
-// 		
-// 		Response responseData = GoodreadsService.parse(response.getEntity().getContent());
-// 		
-// 		return responseData.getReview();
-// 	}
-// 	
+ 	
+ 	public static Review getReview(String reviewId) throws Exception
+ 	{
+ 		return getReview(reviewId, 1);
+ 	}
+ 	
+ 	public static Review getReview(String reviewId, int page) throws Exception
+ 	{
+ 		Uri.Builder builder = new Uri.Builder();
+ 		builder.scheme("http");
+ 		builder.authority("www.goodreads.com");
+ 		builder.path("review/show/" + reviewId + ".xml");
+ 		builder.appendQueryParameter("key", sApiKey);
+ 		builder.appendQueryParameter("page", Integer.toString(page));
+ 		OAuthRequest getReviewRequest = new OAuthRequest(Verb.GET, builder.build().toString());
+ 		if (isAuthenticated())
+ 		{
+ 			sService.signRequest(sAccessToken, getReviewRequest);
+ 		}
+ 		Response response = getReviewRequest.send();
+ 		
+ 		GoodreadsResponse responseData = GoodreadsService.parse(response.getStream());
+ 		
+ 		return responseData.getReview();
+ 	}
+ 	
 	/**
 	 * Returns a list of shelves for a given user
 	 */
